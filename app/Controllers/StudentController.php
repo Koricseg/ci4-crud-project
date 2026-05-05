@@ -9,7 +9,24 @@ class StudentController extends BaseController
     public function index()
     {
         $model = new StudentModel();
-        $data['students'] = $model->findAll();
+
+        // Get the search term from the GET request
+        $search = $this->request->getGet('search');
+
+        if (!empty($search)) {
+            // Group the LIKE queries to ensure they don't interfere with other WHERE clauses
+            $model->groupStart()
+                  ->like('name', $search)
+                  ->orLike('email', $search)
+                  ->orLike('course', $search)
+                  ->orLike('year', $search)
+                  ->groupEnd();
+        }
+
+        $data = [
+            'students' => $model->findAll(),
+            'search'   => $search
+        ];
 
         return view('students/index', $data);
     }
@@ -37,10 +54,6 @@ class StudentController extends BaseController
     {
         $model = new StudentModel();
         $student = $model->find($id);
-
-        if (!$student) {
-            return redirect()->to('/students')->with('error', 'Student not found');
-        }
 
         return view('students/edit', ['student' => $student]);
     }

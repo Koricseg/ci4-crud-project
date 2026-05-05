@@ -12,7 +12,5 @@ class StudentModel extends Model
     protected $allowedFields = ['name', 'email', 'course', 'year'];
 
     protected $useTimestamps = true;
-
-    // OPTIONAL: disable first to avoid confusion
     protected $useSoftDeletes = false;
 }
