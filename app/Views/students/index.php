@@ -73,4 +73,7 @@
     </table>
 </div>
 
+<!-- PAGINATION -->
+<?= $pager->links('default', 'custom') ?>
+
 <?= $this->endSection() ?>

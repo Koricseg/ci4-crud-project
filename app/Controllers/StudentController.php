@@ -24,9 +24,15 @@ class StudentController extends BaseController
         }
 
         $data = [
-            'students' => $model->findAll(),
+            'students' => $model->paginate(5), // Paginate with 10 items per page
+            'pager'    => $model->pager,
             'search'   => $search
         ];
+
+        // Ensure pager preserves search query parameter
+        if (!empty($search)) {
+            $model->pager->setQuery(['search' => $search]);
+        }
 
         return view('students/index', $data);
     }
