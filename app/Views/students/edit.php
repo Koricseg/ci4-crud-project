@@ -1,14 +1,50 @@
+<?= $this->extend('layout') ?>
+<?= $this->section('content') ?>
+
 <?php if (isset($student) && $student): ?>
-<form action="/students/update/<?= $student['id'] ?>" method="post">
-    <?= csrf_field() ?>
 
-    Name: <input type="text" name="name" value="<?= $student['name'] ?>"><br>
-    Email: <input type="email" name="email" value="<?= $student['email'] ?>"><br>
-    Course: <input type="text" name="course" value="<?= $student['course'] ?>"><br>
-    Year: <input type="number" name="year" value="<?= $student['year'] ?>"><br>
+<div class="card p-4 mx-auto" style="max-width:600px;">
+    <h3>Edit Student</h3>
 
-    <button type="submit">Update</button>
-</form>
+    <form action="/students/update/<?= $student['id'] ?>" method="post">
+        <?= csrf_field() ?>
+
+        <div class="mb-3">
+            <label class="form-label">Name</label>
+            <input class="form-control" type="text"
+                   name="name"
+                   value="<?= esc($student['name']) ?>">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input class="form-control" type="email"
+                   name="email"
+                   value="<?= esc($student['email']) ?>">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Course</label>
+            <input class="form-control" type="text"
+                   name="course"
+                   value="<?= esc($student['course']) ?>">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Year</label>
+            <input class="form-control" type="number"
+                   name="year"
+                   value="<?= esc($student['year']) ?>">
+        </div>
+
+        <button class="btn btn-primary w-100">
+            Update Student
+        </button>
+    </form>
+</div>
+
 <?php else: ?>
-    <h3 style="color:red;">ERROR: No student data received</h3>
+    <div class="alert alert-danger">Student not found</div>
 <?php endif; ?>
+
+<?= $this->endSection() ?>

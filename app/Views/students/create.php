@@ -1,22 +1,36 @@
-<!DOCTYPE html>
-<html>
-<head><title>Add Student</title></head>
-<body>
+<?= $this->extend('layout') ?>
+<?= $this->section('content') ?>
 
-<h1>Add Student</h1>
+<div class="card p-4 mx-auto" style="max-width:600px;">
+    <h3>Add Student</h3>
 
-<form action="/students/store" method="post">
-    <?= csrf_field() ?>
+    <form action="/students/store" method="post">
+        <?= csrf_field() ?>
 
-    Name:   <input type="text" name="name"><br>
-    Email:  <input type="email" name="email"><br>
-    Course: <input type="text" name="course"><br>
-    Year:   <input type="number" name="year"><br>
+        <div class="mb-3">
+            <label class="form-label">Name</label>
+            <input class="form-control" type="text" name="name">
+        </div>
 
-    <button type="submit">Save</button>
-</form>
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input class="form-control" type="email" name="email">
+        </div>
 
-<a href="/students">Back</a>
+        <div class="mb-3">
+            <label class="form-label">Course</label>
+            <input class="form-control" type="text" name="course">
+        </div>
 
-</body>
-</html>
+        <div class="mb-3">
+            <label class="form-label">Year</label>
+            <input class="form-control" type="number" name="year">
+        </div>
+
+        <button class="btn btn-primary w-100">
+            Save Student
+        </button>
+    </form>
+</div>
+
+<?= $this->endSection() ?>
