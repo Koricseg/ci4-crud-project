@@ -1,61 +1,76 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Students</title>
-</head>
-<body>
+<?= $this->extend('layout') ?>
+<?= $this->section('content') ?>
 
-<h1>Students</h1>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Student Dashboard</h2>
+    <a href="<?= site_url('students/create') ?>" class="btn btn-accent">
+        + Add Student
+    </a>
+</div>
 
-<a href="<?= site_url('students/create') ?>">Add Student</a>
+<!-- SEARCH -->
+<div class="card p-3 mb-4">
+    <form class="d-flex gap-2" method="get">
+        <input type="text"
+               name="search"
+               class="form-control"
+               value="<?= esc($search ?? '') ?>"
+               placeholder="Search student...">
 
-<!-- SEARCH BAR -->
-<form method="get" action="<?= site_url('students') ?>" style="margin: 10px 0;">
-    <input 
-        type="text" 
-        name="search" 
-        value="<?= esc($search ?? '') ?>" 
-        placeholder="Search by name, email, course..."
-    >
-    <button type="submit">Search</button>
-    <?php if (!empty($search)): ?>
-        <a href="<?= site_url('students') ?>">Clear</a>
-    <?php endif; ?>
-</form>
+        <button class="btn btn-primary">Search</button>
 
-<table border="1" cellpadding="10">
-<thead>
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Course</th>
-        <th>Year</th>
-        <th>Actions</th>
-    </tr>
-</thead>
-<tbody>
-<?php if (!empty($students)): ?>
-    <?php foreach ($students as $s): ?>
-    <tr>
-        <td><?= esc((string)$s['id']) ?></td>
-        <td><?= esc((string)$s['name']) ?></td>
-        <td><?= esc((string)$s['email']) ?></td>
-        <td><?= esc((string)$s['course']) ?></td>
-        <td><?= esc((string)$s['year']) ?></td>
-        <td>
-            <a href="<?= site_url('students/edit/' . $s['id']) ?>">Edit</a> | 
-            <a href="<?= site_url('students/delete/' . $s['id']) ?>" onclick="return confirm('Delete this record?')">Delete</a>
-        </td>
-    </tr>
-    <?php endforeach; ?>
-<?php else: ?>
-    <tr>
-        <td colspan="6">No results found</td>
-    </tr>
-<?php endif; ?>
-</tbody>
-</table>
+        <?php if (!empty($search)): ?>
+            <a href="<?= site_url('students') ?>" class="btn btn-secondary">Clear</a>
+        <?php endif; ?>
+    </form>
+</div>
 
-</body>
-</html>
+<!-- TABLE -->
+<div class="card p-3">
+    <table class="table align-middle table-hover">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Course</th>
+            <th>Year</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <?php if (!empty($students)): ?>
+            <?php foreach ($students as $s): ?>
+                <tr>
+                    <td><?= esc($s['id']) ?></td>
+                    <td><strong><?= esc($s['name']) ?></strong></td>
+                    <td><?= esc($s['email']) ?></td>
+                    <td><?= esc($s['course']) ?></td>
+                    <td><span class="badge badge-year"><?= esc($s['year']) ?></span></td>
+                    <td class="d-flex gap-2">
+                        <a href="<?= site_url('students/edit/' . $s['id']) ?>"
+                           class="btn btn-sm btn-primary">
+                            Edit
+                        </a>
+
+                        <a href="<?= site_url('students/delete/' . $s['id']) ?>"
+                           class="btn btn-sm btn-danger"
+                           onclick="return confirm('Delete this record?')">
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <tr>
+                <td colspan="6" class="text-center text-muted">
+                    No students found
+                </td>
+            </tr>
+        <?php endif; ?>
+        </tbody>
+    </table>
+</div>
+
+<?= $this->endSection() ?>
